@@ -1,6 +1,7 @@
 import { Server } from "./presentation/server";
 import { AppRoutes } from "./presentation/routes";
 import {envs} from './config/envs';
+import { dbConnection , MongoDatabase } from "./data";
 
 
 
@@ -15,4 +16,12 @@ async function main(){
     })
 
     serverExpress.start();
+
+    await MongoDatabase.connect({
+        dbName:envs.MONGO_DB_NAME,
+        mongoUrl:envs.MONGO_URL,
+    })
+  
+    await dbConnection();
+   
 }
