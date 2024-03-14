@@ -17,6 +17,8 @@ async function main(){
 
     serverExpress.start();
 
+    
+  
     await dbConnection();
    
 }

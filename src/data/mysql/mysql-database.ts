@@ -11,6 +11,7 @@ export const  dbConnection = async ()=>{
 
     try {
         await db.authenticate();
+        await db.sync({alter: true})
         console.log('Database online');
     } catch (error) {
         throw error;
