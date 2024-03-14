@@ -14,7 +14,7 @@ export class RegisterUserDto{
 
         if(!email) return['Missing email', undefined];
 
-        if(!numero) return['Missing ', undefined];
+        if(!numero) return['Missing numero', undefined];
 
         if(numero < 10 ) return['Not a valid number', undefined];
 
