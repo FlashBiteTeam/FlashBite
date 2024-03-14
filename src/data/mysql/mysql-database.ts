@@ -1,29 +1,18 @@
-import { Sequelize } from 'sequelize';
+import { Sequelize } from "sequelize";
+import { envs } from "../../config/envs";
 
-interface Options {
-    dbName: string;
-    username: string;
-    password: string;
-    host: string;
-    port: number;
-}
 
-export class MySQLDatabase {
-    static async connect(options: Options) {
-        const { dbName, username, password, host, port } = options;
-        const sequelize = new Sequelize(dbName, username, password, {
-            host,
-            port,
-            dialect: 'mysql',
-        });
+export const db = new Sequelize(envs.MYSQL_DB, envs.MYSQL_USERNAME, envs.MYSQL_ROOT_PASSWORD,{
+    host: envs.MYSQL_HOST,
+    dialect: 'mysql',
+});
 
-        try {
-            await sequelize.authenticate();
-            console.log('MySQL Connected');
-            return sequelize;
-        } catch (error) {
-            console.error('MySQL connection error:', error);
-            throw error;
-        }
+export const  dbConnection = async ()=>{
+
+    try {
+        await db.authenticate();
+        console.log('Database online');
+    } catch (error) {
+        throw error;
     }
 }
