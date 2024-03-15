@@ -20,8 +20,9 @@ export class AuthService{
         try {
             const user = await new UserRegister(this.userRepository).execute(registerUserDto);
             await new OTPRegister(this.otpRepository).execute(registerUserDto);
+            const {contrasena, ...newUser} =  user; 
             return {
-            user: user,
+            user: newUser,
             otpGenerated: true
             };
 

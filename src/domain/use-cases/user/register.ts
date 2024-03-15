@@ -1,3 +1,4 @@
+import { bcriptAdapter } from "../../../config/bcrypt.adapter";
 import { RegisterUserDto } from "../../dtos/auth/register-user.dto";
 import { UsuarioEntity } from "../../entities/usuario.entity";
 import { CustomError } from "../../errors/custom.errors";
@@ -20,12 +21,15 @@ export class UserRegister implements UserRegisterUseCase{
 
 
         try {
-            // TODO password
             const usuarioRegistrado = await this.repository.findOne(dto.email,false);
             if(usuarioRegistrado) {
               return usuarioRegistrado;
              }
-            const user = await this.repository.createUser(dto);
+             
+             const { contrasena, ...userDto } = dto;
+             const contrasenaHasheada = bcriptAdapter.hash(contrasena); 
+             //* hash password
+             const user = await this.repository.createUser({ ...userDto, contrasena: contrasenaHasheada }); 
             return user;
           } catch (error) {
             throw CustomError.internalServer(`${error}`);
