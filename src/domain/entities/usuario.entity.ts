@@ -7,7 +7,7 @@ export class UsuarioEntity{
         public emailValidado: boolean,
         public contrasena: string,
         public numero: string,
-        public role: string,
+        public role?: string,
     
     ){}
 

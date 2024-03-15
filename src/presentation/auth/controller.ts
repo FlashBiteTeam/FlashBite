@@ -5,11 +5,11 @@ import { OTPRegister } from "../../domain/use-cases/otp/otp-register";
 import { UserRepository } from "../../domain/repository/user.repository";
 import { UserRegister } from "../../domain/use-cases/user/register";
 import { CustomError } from "../../domain/errors/custom.errors";
+import { AuthService } from "../services/auth.service";
 export  class AuthController{
     
     constructor(
-        private readonly otpRepository:OTPRepository,
-        private readonly userRepository: UserRepository
+        private readonly authService:AuthService,
     ){};
 
     private handleError = (error:unknown, res: Response) => {
@@ -25,17 +25,9 @@ export  class AuthController{
         if(error) return res.status(400).json({error});
         if(registerDto){
 
-           
-            new UserRegister(this.userRepository)
-           .execute(registerDto)
-           .then((user) => res.status(200).json({user:user,message:'OTP enviado'}))
-           .catch(error => this.handleError(error,res))
-           
-           new OTPRegister(this.otpRepository)
-           .execute(registerDto)
-           
-
-
+            this.authService.registerUser(registerDto!)
+            .then((user) => res.json(user))
+            .catch(error => this.handleError(error, res));
         }
         
     }

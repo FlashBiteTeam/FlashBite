@@ -3,8 +3,8 @@ import { UserDatasource } from "../../domain/datasources/user.datasource";
 import {Usuario} from "../../data/mysql/models/usuarios.model";
 
 export class MysqlUserDatasource implements UserDatasource{
-    async findOne(email: string): Promise<UsuarioEntity | null> {
-        const usuario = await Usuario.findOne({ where: { email } });
+    async findOne(email: string, emailValidado:boolean): Promise<UsuarioEntity | null> {
+        const usuario = await Usuario.findOne({ where: {email: email,emailValidado: emailValidado}});
         if(usuario) return UsuarioEntity.fromObject(usuario);
         return null;
 
@@ -14,7 +14,7 @@ export class MysqlUserDatasource implements UserDatasource{
         const usuarioModel = {
             email:dto.email,
             nombre: dto.nombre,
-            contrasena: dto.contraseña,
+            contrasena: dto.contrasena,
             numero: dto.numero,
             
         };

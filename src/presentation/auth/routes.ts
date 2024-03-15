@@ -4,6 +4,7 @@ import { MongoOTPDatasource } from '../../infrastructure/datasources/mongo-otp.d
 import { MysqlUserDatasource } from '../../infrastructure/datasources/mysql-user.datasource';
 import { OTPRepositoryImpl } from '../../infrastructure/repositories/otp.repository.impl';
 import { UserRepositoryImpl } from '../../infrastructure/repositories/user.repository.impl';
+import { AuthService } from '../services/auth.service';
 
 
 
@@ -22,7 +23,8 @@ export class AuthRoutes {
     const mysqldatasource = new MysqlUserDatasource();
     const mysqlyRepository = new UserRepositoryImpl(mysqldatasource);
 
-    const controller = new AuthController(mongodatasource, mysqlyRepository);
+    const authService = new AuthService(mongoRepository,mysqlyRepository);
+    const controller = new AuthController(authService);
     
     router.post('/register',controller.registerUser)
 

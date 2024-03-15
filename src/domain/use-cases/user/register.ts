@@ -1,4 +1,5 @@
 import { RegisterUserDto } from "../../dtos/auth/register-user.dto";
+import { UsuarioEntity } from "../../entities/usuario.entity";
 import { CustomError } from "../../errors/custom.errors";
 import { UserRepository } from "../../repository/user.repository";
 
@@ -13,12 +14,17 @@ export class UserRegister implements UserRegisterUseCase{
 
 
     async execute(dto: RegisterUserDto) {
-        const existUser = await this.repository.findOne(dto.email);
+        const existUser = await this.repository.findOne(dto.email,true);
         console.log(existUser);
         if(existUser) throw CustomError.badRequest('El email ya esta registrado');
-        
+
+
         try {
             // TODO password
+            const usuarioRegistrado = await this.repository.findOne(dto.email,false);
+            if(usuarioRegistrado) {
+              return usuarioRegistrado;
+             }
             const user = await this.repository.createUser(dto);
             return user;
           } catch (error) {

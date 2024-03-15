@@ -7,8 +7,8 @@ export class UserRepositoryImpl implements UserRepository{
     constructor(
         private readonly userDatasource:UserDatasource
     ){}
-    findOne(email: string): Promise<UsuarioEntity | null> {
-        return this.userDatasource.findOne(email);
+    findOne(email: string, emailValidado:boolean): Promise<UsuarioEntity | null> {
+        return this.userDatasource.findOne(email,emailValidado);
     }
     createUser(dto: RegisterUserDto): Promise<UsuarioEntity> {
         return this.userDatasource.createUser(dto);
