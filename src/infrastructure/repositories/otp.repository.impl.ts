@@ -1,6 +1,6 @@
 import { OTPEntity } from "../../domain";
 import { OTPDatasource } from "../../domain/datasources/otp.datasource";
-import { OTPRepository } from "../../domain/repository/otp.repostory";
+import { OTPRepository } from "../../domain/repository/otp.repository";
 
 export class OTPRepositoryImpl implements OTPRepository{
 

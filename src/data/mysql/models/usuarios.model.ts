@@ -28,14 +28,14 @@ export const Usuario = db.define('usuario', {
         type: DataTypes.STRING,
         
     },
-    name: {
+    nombre: {
         type: DataTypes.STRING,
         allowNull: false
     },
    
     emailValidado: {
         type: DataTypes.BOOLEAN,
-        allowNull: false 
+        defaultValue: false 
     },
     contrasena: {
         type: DataTypes.STRING,

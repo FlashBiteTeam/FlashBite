@@ -1,4 +1,4 @@
-import { OTPEntity} from "../../domain";
+import { OTPEntity} from "..";
 
 export abstract class OTPRepository {
     abstract saveOTP( otp: OTPEntity):Promise<void>;
