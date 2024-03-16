@@ -1,47 +1,47 @@
 
 export interface OTPEntityOptions{
+    otp: string;
     email: string;
-    subject: string;
-    message: string;
-    duration: number;
+    creado: number;
+    expira: number;
 }
 
 
 
 export class OTPEntity {
 
-    public message: string;
+    public otp: string;
     public email: string;
-    public subject: string;
-    public duration: number;
+    public creado: number;
+    public expira: number;
 
     constructor(options:OTPEntityOptions){
-        const {message = '', email, subject = '', duration = 1} = options;
+        const {otp, email,creado , expira} = options;
 
-        this.message = message;
+        this.otp = otp;
         this.email = email;
-        this.subject = subject;
-        this.duration = duration;
+        this.creado = creado;
+        this.expira = expira;
         
     }
 
     static fromJson = (json:string):OTPEntity =>{
 
         json = (json=== '') ? '{}': json;
-        const {message, email, subject, duration} = JSON.parse(json);
+        const {otp, email, creado, expira} = JSON.parse(json);
         const OTP = new OTPEntity({
-            message,
+            otp,
             email,
-            subject,
-            duration});
+            creado,
+            expira});
         return OTP;
 
     }
 
     static fromObject = (object: {[key:string]:any}):OTPEntity=>{
-        const {message, email, subject, duration}= object;
+        const {otp, email, creado, expira}= object;
         const OTP = new OTPEntity({
-            message, email, subject, duration
+            otp, email, creado, expira
         })
         return OTP
     }

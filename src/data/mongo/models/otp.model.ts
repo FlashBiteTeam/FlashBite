@@ -5,6 +5,16 @@ const OTPSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Name is required'],
         unique: true,
+    },
+    otp:{
+        type: String,
+        required: [true, 'OTP required']
+    },
+    creado:{
+        type: Date
+    },
+    expira:{
+        type: Date
     }
 });
 

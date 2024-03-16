@@ -5,6 +5,8 @@ import { MysqlUserDatasource } from '../../infrastructure/datasources/mysql-user
 import { OTPRepositoryImpl } from '../../infrastructure/repositories/otp.repository.impl';
 import { UserRepositoryImpl } from '../../infrastructure/repositories/user.repository.impl';
 import { AuthService } from '../services/auth.service';
+import { EmailService } from '../services/email.service';
+import { envs } from '../../config/envs';
 
 
 
@@ -23,7 +25,13 @@ export class AuthRoutes {
     const mysqldatasource = new MysqlUserDatasource();
     const mysqlyRepository = new UserRepositoryImpl(mysqldatasource);
 
-    const authService = new AuthService(mongoRepository,mysqlyRepository);
+    const emailService = new EmailService(
+      envs.MAILER_SERVICE,
+      envs.MAILER_EMAIL,
+      envs.MAILER_SECRET_KEY,
+    );
+
+    const authService = new AuthService(emailService,mongoRepository,mysqlyRepository);
     const controller = new AuthController(authService);
     
     router.post('/register',controller.registerUser)
