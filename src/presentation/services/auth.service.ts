@@ -1,11 +1,16 @@
+import e from "express";
 import { bcriptAdapter } from "../../config/bcrypt.adapter";
 import { OTPEntity, RegisterUserDto } from "../../domain";
+import { VerifyOTPDto } from "../../domain/dtos/auth/verify-otp.dtp.t";
 import { CustomError } from "../../domain/errors/custom.errors";
 import { OTPRepository } from "../../domain/repository/otp.repository";
 import { UserRepository } from "../../domain/repository/user.repository";
 import { OTPRegister } from "../../domain/use-cases/otp/otp-register";
+import { OTPVerify } from "../../domain/use-cases/otp/otp-verify";
 import { UserRegister } from "../../domain/use-cases/user/register";
 import { EmailService } from "./email.service";
+import { LoginUserDto } from "../../domain/dtos/auth/login-user.dto";
+import { UserLogin } from "../../domain/use-cases/user/login";
 
 export class AuthService{
     constructor(
@@ -21,13 +26,13 @@ export class AuthService{
         
         try {
             const user = await new UserRegister(this.userRepository).execute(registerUserDto);
-            const {contrasena, ...newUser} =  user; 
+            const {contrasena, ...newUser} =  user!; 
             
             
             // * generar OTP
             const tiempoExpiracion:number= 1;
             const newOtp = await  new OTPRegister(this.otpRepository).execute(registerUserDto,tiempoExpiracion);
-            // * Separar codigo de la contra
+            // * Separar codigo 
 
             const { otp, ...Otp} = newOtp;
 
@@ -43,12 +48,37 @@ export class AuthService{
             
             return {
             user: newUser,
-            otpGenerated: true,
+            message: 'Verifica el codigo otp enviado a tu correo',
             };
 
         } catch (error) {
             throw CustomError.internalServer(`${error}`);
         }
+    }
+
+   
+    public async verifyOTP (verifyOTPDto:VerifyOTPDto){
+        try {
+            const found = await new OTPVerify(this.otpRepository).execute(verifyOTPDto);
+            if(found){
+                this.userRepository.validateEmail(verifyOTPDto);
+                return {
+                    message: 'Codigo valido, bienvenido',
+                }
+            }else{
+                throw CustomError.badRequest(`Codigo no valido`);
+            }
+        } catch (error) {
+            throw CustomError.internalServer(`${error}`);
+
+        }
+        
+    }
+
+    public async loginUser(loginUserDto: LoginUserDto){
+        
+      const loginResponse = await new UserLogin(this.userRepository).execute(loginUserDto);
+      return loginResponse;
     }
 
     private sendEmailValidationLink = async (email:string,otp:string,expira:number) =>{

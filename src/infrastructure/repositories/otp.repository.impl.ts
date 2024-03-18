@@ -1,5 +1,6 @@
 import { OTPEntity } from "../../domain";
 import { OTPDatasource } from "../../domain/datasources/otp.datasource";
+import { VerifyOTPDto } from "../../domain/dtos/auth/verify-otp.dtp.t";
 import { OTPRepository } from "../../domain/repository/otp.repository";
 
 export class OTPRepositoryImpl implements OTPRepository{
@@ -13,6 +14,9 @@ export class OTPRepositoryImpl implements OTPRepository{
     }
     async deleteOne(email: string): Promise<void> {
         return this.otpDatasource.deleteOne(email);
+    }
+    async findOne(verifyOTPDto: VerifyOTPDto): Promise<OTPEntity | null> {
+        return this.otpDatasource.findOne(verifyOTPDto);
     }
     
 } 

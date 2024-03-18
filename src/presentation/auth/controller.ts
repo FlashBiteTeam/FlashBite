@@ -6,6 +6,8 @@ import { UserRepository } from "../../domain/repository/user.repository";
 import { UserRegister } from "../../domain/use-cases/user/register";
 import { CustomError } from "../../domain/errors/custom.errors";
 import { AuthService } from "../services/auth.service";
+import { VerifyOTPDto } from "../../domain/dtos/auth/verify-otp.dtp.t";
+import { LoginUserDto } from "../../domain/dtos/auth/login-user.dto";
 export  class AuthController{
     
     constructor(
@@ -27,6 +29,28 @@ export  class AuthController{
 
             this.authService.registerUser(registerDto!)
             .then((user) => res.json(user))
+            .catch(error => this.handleError(error, res));
+        }
+        
+    }
+    verifyUser = (req:Request, res:Response)=>{
+        const [error, verifyOTPDto] = VerifyOTPDto.create(req.body);
+        if(error) return res.status(400).json({error});
+        if(verifyOTPDto){
+
+            this.authService.verifyOTP(verifyOTPDto!)
+            .then((message) => res.json({message}).status(200))
+            .catch(error => this.handleError(error, res));
+        }
+        
+    }
+    login = (req:Request, res:Response)=>{
+        const [error, loginUserDto] = LoginUserDto.create(req.body);
+        if(error) return res.status(400).json({error});
+        if(loginUserDto){
+
+            this.authService.loginUser(loginUserDto!)
+            .then((message) => res.json({message}).status(200))
             .catch(error => this.handleError(error, res));
         }
         

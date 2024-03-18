@@ -35,6 +35,8 @@ export class AuthRoutes {
     const controller = new AuthController(authService);
     
     router.post('/register',controller.registerUser)
+    router.post('/verify',controller.verifyUser)
+    router.post('/login',controller.login)
 
 
     return router;
