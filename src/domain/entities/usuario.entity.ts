@@ -32,6 +32,17 @@ export class UsuarioEntity{
         return new UsuarioEntity(nombre, email, emailValidado, contrasena, numero,role);
         
     }
+    static fromJson = (json:string):UsuarioEntity =>{
+
+        json = (json=== '') ? '{}': json;
+        const {nombre, email, emailValidado, contrasena, numero,role} = JSON.parse(json);
+        const usuario = new UsuarioEntity(
+            nombre, email, emailValidado, contrasena, numero,role);
+        return usuario;
+
+    }
+
+
 }
 
 
