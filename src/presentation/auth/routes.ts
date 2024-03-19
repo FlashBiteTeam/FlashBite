@@ -7,6 +7,8 @@ import { UserRepositoryImpl } from '../../infrastructure/repositories/user.repos
 import { AuthService } from '../services/auth.service';
 import { EmailService } from '../services/email.service';
 import { envs } from '../../config/envs';
+import { MysqlRestauranteDatasource } from '../../infrastructure/datasources/mysql-restaurante.datasource';
+import { RestauranteRepositoryImpl } from '../../infrastructure/repositories/restaurante.repository.impl';
 
 
 
@@ -19,24 +21,32 @@ export class AuthRoutes {
 
     const router = Router();
 
+    // * OTP
     const mongodatasource = new MongoOTPDatasource();
     const mongoRepository = new OTPRepositoryImpl(mongodatasource);
-
+    // * Registro usuarios
     const mysqldatasource = new MysqlUserDatasource();
     const mysqlyRepository = new UserRepositoryImpl(mysqldatasource);
-
+    // * Registro restaurantes
+    const mysqlRestauranteDatasource = new MysqlRestauranteDatasource();
+    const mysqlRestauranteRepository = new RestauranteRepositoryImpl(mysqlRestauranteDatasource);
+    // * Envio correos
     const emailService = new EmailService(
       envs.MAILER_SERVICE,
       envs.MAILER_EMAIL,
       envs.MAILER_SECRET_KEY,
     );
-
-    const authService = new AuthService(emailService,mongoRepository,mysqlyRepository);
+    const authService = new AuthService(emailService,mongoRepository,mysqlyRepository,mysqlRestauranteRepository);
     const controller = new AuthController(authService);
     
-    router.post('/register',controller.registerUser)
-    router.post('/verify',controller.verifyUser)
+
+    // * RUTAS
+
+    router.post('/register/user',controller.registerUser)
+    router.post('/register/restaurante',controller.registerRestaurante)
+    router.post('/generate/otp',controller.generateOTP)
     router.post('/login',controller.login)
+    router.post('/verify',controller.verifyUser)
 
 
     return router;

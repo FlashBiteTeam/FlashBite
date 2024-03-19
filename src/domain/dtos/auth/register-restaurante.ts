@@ -1,6 +1,6 @@
 import { regularExps } from "../../../config";
 
-export class RegisterUserDto{
+export class RegisterRestauranteDto{
     constructor(
         public readonly nombre:string,
         public readonly direccion:string,
@@ -9,7 +9,7 @@ export class RegisterUserDto{
         public readonly contrasena:string,
         public readonly numero:string,
     ){}
-    static create(object: {[key:string]:any}):[string?,RegisterUserDto?]{
+    static create(object: {[key:string]:any}):[string?,RegisterRestauranteDto?]{
         const {nombre, direccion, email, nit,contrasena,numero} = object;
 
         if(!nombre) return ['Missing name', undefined];
@@ -28,7 +28,7 @@ export class RegisterUserDto{
 
         if(!numero) return['Missing numero de telefono', undefined];
 
-        return [undefined, new RegisterUserDto(nombre, direccion, email, nit,contrasena,numero)]
+        return [undefined, new RegisterRestauranteDto(nombre, direccion, email, nit,contrasena,numero)]
 
     }
 }

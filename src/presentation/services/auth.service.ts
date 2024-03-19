@@ -6,19 +6,23 @@ import { CustomError } from "../../domain/errors/custom.errors";
 import { OTPRepository } from "../../domain/repository/otp.repository";
 import { UserRepository } from "../../domain/repository/user.repository";
 import { OTPRegister } from "../../domain/use-cases/otp/otp-register";
+import { OTPgenerate } from "../../domain/use-cases/otp/otp-generate";
 import { OTPVerify } from "../../domain/use-cases/otp/otp-verify";
-import { UserRegister } from "../../domain/use-cases/user/register";
+import { UserRegister } from "../../domain/use-cases/auth/register-usuario";
 import { EmailService } from "./email.service";
 import { LoginUserDto } from "../../domain/dtos/auth/login-user.dto";
-import { UserLogin } from "../../domain/use-cases/user/login";
+import { UserLogin } from "../../domain/use-cases/auth/login-usuario";
+import { RegisterRestauranteDto } from "../../domain/dtos/auth/register-restaurante";
+import { RestauranteRepository } from "../../domain/repository/restaurante.repository";
+import { RestauranteRegister } from "../../domain/use-cases/auth/register-restaurante";
+import { Duplex } from "stream";
 
 export class AuthService{
     constructor(
         private readonly emailService:EmailService,
         private readonly otpRepository:OTPRepository,
-        private readonly userRepository: UserRepository
-
-        
+        private readonly userRepository: UserRepository,
+        private readonly restauranteRepository: RestauranteRepository,
     ){}
 
     public async registerUser(registerUserDto:RegisterUserDto){
@@ -56,12 +60,52 @@ export class AuthService{
         }
     }
 
-   
+    
+    public async registerRestaurante(registerRestauranteDto:RegisterRestauranteDto){
+
+        
+        try {
+            const user = await new RestauranteRegister(this.restauranteRepository).execute(registerRestauranteDto);
+            const {contrasena, ...newUser} =  user!; 
+            
+            
+            // * generar OTP
+            const tiempoExpiracion:number= 1;
+            const newOtp = await  new OTPRegister(this.otpRepository).execute(registerRestauranteDto,tiempoExpiracion);
+            // * Separar codigo 
+
+            const { otp, ...Otp} = newOtp;
+
+            // * Enviar correo con otp
+            await this.sendEmailValidationLink(registerRestauranteDto.email,otp,tiempoExpiracion);
+            // * Hashear Codigo
+            const otpHashed = bcriptAdapter.hash(otp);  
+            const otpDB = new OTPEntity({
+                otp:otpHashed,
+                ...Otp
+            }) 
+            this.otpRepository.saveOTP(otpDB);
+            
+            return {
+            user: newUser,
+            message: 'Verifica el codigo otp enviado a tu correo',
+            };
+
+        } catch (error) {
+            throw CustomError.internalServer(`${error}`);
+        }
+    }
+
     public async verifyOTP (verifyOTPDto:VerifyOTPDto){
         try {
             const found = await new OTPVerify(this.otpRepository).execute(verifyOTPDto);
             if(found){
                 this.userRepository.validateEmail(verifyOTPDto);
+                return {
+                    message: 'Codigo valido, bienvenido',
+                }
+            }else if(found){
+                this.restauranteRepository.validateEmail(verifyOTPDto);
                 return {
                     message: 'Codigo valido, bienvenido',
                 }
@@ -80,6 +124,40 @@ export class AuthService{
       const loginResponse = await new UserLogin(this.userRepository).execute(loginUserDto);
       return loginResponse;
     }
+
+
+    public async OTPGenerate(email:string){
+
+        
+        try {
+            
+            // * generar OTP
+            const tiempoExpiracion:number= 1;
+            const newOtp = await  new OTPgenerate(this.otpRepository).execute(email,tiempoExpiracion);
+            
+
+            // * Enviar correo con otp
+            await this.sendEmailValidationLink(email,newOtp.otp,tiempoExpiracion);
+            // * Hashear Codigo
+            const otpHashed = bcriptAdapter.hash(newOtp.otp);  
+            const {otp, ...Otp} = newOtp
+            const otpDB = new OTPEntity({
+                otp:otpHashed,
+                ...Otp
+            }) 
+            this.otpRepository.saveOTP(otpDB);
+            
+            return {
+            message: 'Verifica el codigo otp enviado a tu correo',
+            };
+
+        } catch (error) {
+            throw CustomError.internalServer(`${error}`);
+        }
+    }
+
+
+
 
     private sendEmailValidationLink = async (email:string,otp:string,expira:number) =>{
 

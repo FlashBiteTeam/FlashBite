@@ -5,7 +5,7 @@ export class RestauranteEntity{
         public nombre: string,
         public email: string,
         public emailValidado: boolean,
-        public contraseña: string,
+        public contrasena: string,
         public numero: string,
         public direccion: string,
         public nit: string,
@@ -14,7 +14,7 @@ export class RestauranteEntity{
 
 
     static fromObject(object:{[key:string]:any}){
-        const {nombre, email, emailValidado, contraseña, numero,direccion, nit} = object;
+        const {nombre, email, emailValidado, contrasena, numero,direccion, nit} = object;
 
 
         if(!nombre) throw CustomError.badRequest('Missing name');
@@ -26,23 +26,23 @@ export class RestauranteEntity{
         
         if(!direccion) throw CustomError.badRequest('Missing direccion');
 
-        if(!contraseña) throw CustomError.badRequest('Missing password');
+        if(!contrasena) throw CustomError.badRequest('Missing password');
 
         if(!direccion) throw CustomError.badRequest('Missing password');
 
 
 
         
-        return new RestauranteEntity(nombre, email, emailValidado, contraseña, numero,direccion, nit);
+        return new RestauranteEntity(nombre, email, emailValidado, contrasena, numero,direccion, nit);
         
     }
 
     static fromJson = (json:string):RestauranteEntity =>{
 
         json = (json=== '') ? '{}': json;
-        const {nombre, email, emailValidado, contraseña, numero,direccion, nit} = JSON.parse(json);
+        const {nombre, email, emailValidado, contrasena, numero,direccion, nit} = JSON.parse(json);
         const usuario = new RestauranteEntity(
-            nombre, email, emailValidado, contraseña, numero,direccion, nit);
+            nombre, email, emailValidado, contrasena, numero,direccion, nit);
         return usuario;
 
     }
