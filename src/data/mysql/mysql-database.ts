@@ -4,6 +4,7 @@ import { envs } from "../../config/envs";
 
 export const db = new Sequelize(envs.MYSQL_DB, envs.MYSQL_USERNAME, envs.MYSQL_ROOT_PASSWORD,{
     host: envs.MYSQL_HOST,
+    port: 3306,
     dialect: 'mysql',
 });
 

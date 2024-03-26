@@ -16,7 +16,10 @@ async function main(){
     })
 
     serverExpress.start();
-
+    console.log(envs.MYSQL_HOST,envs.MYSQL_ROOT_PASSWORD, envs.MYSQL_PORT);
+    
+    
+    
     await MongoDatabase.connect({
         dbName:envs.MONGO_DB_NAME,
         mongoUrl:envs.MONGO_URL,

@@ -46,6 +46,25 @@ export const Usuario = db.define('usuario', {
         allowNull: false
     }
 });
-
+export const OTP = db.define('OTP',{
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        primaryKey: true,
+    },
+    otp:{
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    creado:{
+        type: DataTypes.DATE
+    },
+    expira:{
+        type: DataTypes.DATE
+    }
+});
 UsuarioTipo.hasMany(Usuario);
 Usuario.belongsTo(UsuarioTipo);
+Usuario.hasOne(OTP, { foreignKey: 'email', onDelete: 'CASCADE' });
+OTP.belongsTo(Usuario, { foreignKey: 'email' });
