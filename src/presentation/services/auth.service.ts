@@ -15,7 +15,7 @@ import { UserLogin } from "../../domain/use-cases/auth/login-usuario";
 import { RegisterRestauranteDto } from "../../domain/dtos/auth/register-restaurante";
 import { RestauranteRepository } from "../../domain/repository/restaurante.repository";
 import { RestauranteRegister } from "../../domain/use-cases/auth/register-restaurante";
-import { Duplex } from "stream";
+import { OTPRegisterRestaurante } from "../../domain/use-cases/otp/otp-register-restaurante";
 
 export class AuthService{
     constructor(
@@ -71,7 +71,7 @@ export class AuthService{
             
             // * generar OTP
             const tiempoExpiracion:number= 1;
-            const newOtp = await  new OTPRegister(this.otpRepository).execute(registerRestauranteDto,tiempoExpiracion);
+            const newOtp = await  new OTPRegisterRestaurante(this.otpRepository).execute(registerRestauranteDto,tiempoExpiracion);
             // * Separar codigo 
 
             const { otp, ...Otp} = newOtp;
@@ -84,7 +84,7 @@ export class AuthService{
                 otp:otpHashed,
                 ...Otp
             }) 
-            this.otpRepository.saveOTP(otpDB);
+            this.otpRepository.saveOTPRestaurante(otpDB);
             
             return {
             user: newUser,
@@ -121,7 +121,7 @@ export class AuthService{
 
     public async loginUser(loginUserDto: LoginUserDto){
         
-      const loginResponse = await new UserLogin(this.userRepository).execute(loginUserDto);
+      const loginResponse = await new UserLogin(this.userRepository,this.restauranteRepository).execute(loginUserDto);
       return loginResponse;
     }
 

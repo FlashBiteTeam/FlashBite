@@ -18,5 +18,14 @@ export class OTPRepositoryImpl implements OTPRepository{
     async findOne(verifyOTPDto: VerifyOTPDto): Promise<OTPEntity | null> {
         return this.otpDatasource.findOne(verifyOTPDto);
     }
+    async saveOTPRestaurante(otp: OTPEntity): Promise<void> {
+        return this.otpDatasource.saveOTPRestaurante(otp);
+    }
+    async deleteOneRestaurante(email: string): Promise<void> {
+        return this.otpDatasource.deleteOneRestaurante(email);
+    }
+    async findOneRestaurante(verifyOTPDto: VerifyOTPDto): Promise<OTPEntity | null> {
+        return this.otpDatasource.findOneRestaurante(verifyOTPDto);
+    }
     
 } 

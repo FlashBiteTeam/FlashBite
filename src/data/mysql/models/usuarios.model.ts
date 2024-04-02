@@ -66,5 +66,7 @@ export const OTP = db.define('OTP',{
 });
 UsuarioTipo.hasMany(Usuario);
 Usuario.belongsTo(UsuarioTipo);
+
 Usuario.hasOne(OTP, { foreignKey: 'email', onDelete: 'CASCADE' });
 OTP.belongsTo(Usuario, { foreignKey: 'email' });
+

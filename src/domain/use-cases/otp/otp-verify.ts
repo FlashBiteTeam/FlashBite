@@ -15,31 +15,56 @@ export class OTPVerify implements OTPVerifyUseCase {
     async execute(verifyOTPDto: VerifyOTPDto): Promise<boolean> {
         try {   
             const existOTP = await this.repository.findOne(verifyOTPDto);
+    
 
-            if (existOTP) {
-                console.log(existOTP);
+            if (!existOTP) {
+                const existRestauranteOTP = await this.repository.findOneRestaurante(verifyOTPDto);
                 
-                const{expira, otp} = existOTP; 
-                console.log(expira,otp)
-                if(expira < Date.now()){
+
+                if (existRestauranteOTP) {
+                    console.log(existRestauranteOTP);
+                    
+                    const { expira, otp } = existRestauranteOTP;
+                    console.log(expira, otp);
+                    if (expira < Date.now()) {
+                        throw CustomError.notFound('OTP has expired or not found. Request for a new one');
+                    }
+    
+                    try {
+                        const match = await bcriptAdapter.compare(verifyOTPDto.otp, otp);
+                        if (!match) {
+                            return false;
+                        } else {
+                            this.repository.deleteOneRestaurante(verifyOTPDto.email);
+                            return true;
+                        }
+                    } catch (error) {
+                        throw CustomError.notFound('OTP does not match');
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                console.log(existOTP);
+                    
+                const { expira, otp } = existOTP;
+                console.log(expira, otp);
+                if (expira < Date.now()) {
                     throw CustomError.notFound('OTP has expired or not found. Request for a new one');
                 }
+    
                 try {
                     const match = await bcriptAdapter.compare(verifyOTPDto.otp, otp);
-                    if(!match){
+                    if (!match) {
                         return false;
-                        
-                    }else{
-                        this.repository.deleteOne(verifyOTPDto.email);
+                    } else {
+                        this.repository.deleteOne(verifyOTPDto.email); 
                         return true;
                     }
                 } catch (error) {
                     throw CustomError.notFound('OTP does not match');
                 }
-                
-            } else {
-                return false;
-            }           
+            }     
         } catch (error) {
             throw CustomError.badRequest('There was an error');
         }
