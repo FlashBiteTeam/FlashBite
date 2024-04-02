@@ -17,4 +17,7 @@ export class RestauranteRepositoryImpl implements RestauranteRepository{
     validateEmail(dto: VerifyOTPDto): Promise<boolean> {
         return this.restauranteDatasource.validateEmail(dto);
     }
+    findAll(): Promise<RestauranteEntity[]> {
+        return this.restauranteDatasource.findAll();
+    }
 }

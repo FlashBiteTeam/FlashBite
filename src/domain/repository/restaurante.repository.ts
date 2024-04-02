@@ -7,5 +7,6 @@ export abstract class RestauranteRepository {
     abstract findOne(email: string, emailValidado: boolean):Promise<RestauranteEntity | null>;
     abstract createRestaurante(dto:RegisterRestauranteDto):Promise<RestauranteEntity>;
     abstract validateEmail(dto:VerifyOTPDto):Promise<boolean>;
+    abstract findAll():Promise<RestauranteEntity[]>;
         
 }

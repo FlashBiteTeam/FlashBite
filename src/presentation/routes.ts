@@ -8,8 +8,8 @@ export class AppRoutes{
     
         const router = Router();
 
-        router.use('/api/flashbite', AuthRoutes.routes);
-        router.use('/api/flashbite', SearchRoutes.routes);
+        router.use('/api/flashbite/auth', AuthRoutes.routes);
+        router.use('/api/flashbite/search', SearchRoutes.routes);
 
         return router;
     }

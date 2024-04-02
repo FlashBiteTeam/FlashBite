@@ -1,5 +1,7 @@
 import { Router } from "express";
 import { SearchController } from "./controller";
+import { RestauranteRepositoryImpl } from "../../infrastructure/repositories/restaurante.repository.impl";
+import { MysqlRestauranteDatasource } from "../../infrastructure/datasources/mysql-restaurante.datasource";
 
 export class SearchRoutes{
 
@@ -7,10 +9,11 @@ export class SearchRoutes{
 
         const router = Router();
 
+        const restauranteDatasource = new MysqlRestauranteDatasource();
+        const restauranteRepository = new RestauranteRepositoryImpl(restauranteDatasource);
+        const controllerSearch = new SearchController(restauranteRepository);
 
-        const controller = new SearchController();
-
-        router.get('restaurantes/all',controller.getAll)
+        router.get('/restaurante/all',controllerSearch.getAll)
 
         return router;
     }

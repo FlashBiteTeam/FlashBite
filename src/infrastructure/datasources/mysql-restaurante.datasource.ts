@@ -5,6 +5,7 @@ import { VerifyOTPDto } from "../../domain/dtos/auth/verify-otp.dtp.t";
 import { RestauranteEntity } from "../../domain/entities/restaurante.entity";
 
 export class MysqlRestauranteDatasource implements RestauranteDatasource{
+
     async findOne(email: string, emailValidado: boolean): Promise<RestauranteEntity | null> {
         const restaurante = await Restaurante.findOne({ where: {email: email,emailValidado: emailValidado}});
         if(restaurante) return RestauranteEntity.fromObject(restaurante);
@@ -43,5 +44,9 @@ export class MysqlRestauranteDatasource implements RestauranteDatasource{
             return false;
         }
     }
-    
+    async findAll(): Promise<RestauranteEntity[]> {
+        const restaurantes = await Restaurante.findAll();
+        return restaurantes.map(restaurante => RestauranteEntity.fromObject(restaurante));
+
+    }
 }
