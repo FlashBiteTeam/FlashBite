@@ -99,13 +99,10 @@ export class AuthService{
     public async verifyOTP (verifyOTPDto:VerifyOTPDto){
         try {
             const found = await new OTPVerify(this.otpRepository).execute(verifyOTPDto);
+            console.log('found = ',found);
             if(found){
-                console.log('Se encontro en OTPVERIFY')
+                
                 this.userRepository.validateEmail(verifyOTPDto);
-                return {
-                    message: 'Codigo valido, bienvenido',
-                }
-            }else if(!found){
                 this.restauranteRepository.validateEmail(verifyOTPDto);
                 return {
                     message: 'Codigo valido, bienvenido',
