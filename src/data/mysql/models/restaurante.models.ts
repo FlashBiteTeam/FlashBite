@@ -61,3 +61,5 @@ export const OTPrestaurante = db.define('OTPrestaurante',{
 
 Restaurante.hasOne(OTPrestaurante, { foreignKey: 'email', onDelete: 'CASCADE' });
 OTPrestaurante.belongsTo(Restaurante, { foreignKey: 'email' });
+
+
