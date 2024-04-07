@@ -14,6 +14,7 @@ export class SearchRoutes{
         const controllerSearch = new SearchController(restauranteRepository);
 
         router.get('/restaurante/all',controllerSearch.getAll)
+        router.get('/restaurante/:id',controllerSearch.getRestauranteById)
 
         return router;
     }
