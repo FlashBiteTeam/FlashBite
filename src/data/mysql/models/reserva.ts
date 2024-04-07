@@ -24,6 +24,11 @@ export const Reserva = db.define('Reserva', {
     fecha:{
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    estado:{
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: '1',
     }
 });
 Reserva.belongsTo(Usuario, { foreignKey: 'id_usuario' });
