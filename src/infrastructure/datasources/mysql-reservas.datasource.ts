@@ -4,6 +4,7 @@ import { Restaurante } from "../../data/mysql/models/restaurante.models";
 import { UsuarioEntity } from "../../domain";
 import { ReservaDatasource } from "../../domain/datasources/reserva.datasource";
 import { CrearReservaDto } from "../../domain/dtos/auth/reserva-crear.dto";
+import { RestauranteDto } from "../../domain/dtos/auth/restaurant.dto";
 import { ReservaEntity } from "../../domain/entities/reserva.entity";
 import { RestauranteEntity } from "../../domain/entities/restaurante.entity";
 import { CustomError } from "../../domain/errors/custom.errors";
@@ -56,4 +57,20 @@ export class MysqlReservaDatasource implements ReservaDatasource{
     }
 }
 
+async findCurrentByRestaurant(dto: RestauranteDto): Promise<ReservaEntity[]> {
+    try {
+        const reservas = await Reserva.findAll({
+            where: {
+                id_restaurante: dto.id
+            }
+        });
+        if (reservas.length === 0) {
+            throw CustomError.badRequest("No Hay reservas en el momento");
+        }
+        return reservas.map(reserva => ReservaEntity.fromObject(reserva));
+    } catch (error) {
+        
+        throw (error);
+    }
+}
 }

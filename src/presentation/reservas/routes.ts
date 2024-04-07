@@ -16,6 +16,7 @@ export class ReservasRoutes{
         const controllerReservas = new ReservasController(ReservaRepository);
 
         router.post('/create',controllerReservas.create)
+        router.get('/restaurant/current-reservations/:id',controllerReservas.reservasActualesRestaurante)
 
         return router;
     }

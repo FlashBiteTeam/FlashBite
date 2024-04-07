@@ -6,13 +6,14 @@ export class ReservaEntity{
         public id_usuario: string,
         public hora: string,
         public fecha: string,
+        public estado: string
 
     
     ){}
 
 
     static fromObject(object:{[key:string]:any}){
-        const {id_restaurante, id_usuario, hora, fecha} = object;
+        const {id_restaurante, id_usuario, hora, fecha, estado} = object;
 
 
         if(!id_restaurante) throw CustomError.badRequest('Missing id_restaurante email');
@@ -24,16 +25,16 @@ export class ReservaEntity{
         if(!fecha) throw CustomError.badRequest('Missing fecha');
 
         
-        return new ReservaEntity(id_restaurante, id_usuario, hora, fecha);
+        return new ReservaEntity(id_restaurante, id_usuario, hora, fecha, estado);
         
     }
 
     static fromJson = (json:string):ReservaEntity =>{
 
         json = (json=== '') ? '{}': json;
-        const {id_restaurante, id_usuario, hora, fecha}  = JSON.parse(json);
+        const {id_restaurante, id_usuario, hora, fecha, estado}  = JSON.parse(json);
         const reserva = new ReservaEntity(
-            id_restaurante, id_usuario, hora, fecha);
+            id_restaurante, id_usuario, hora, fecha, estado);
         return reserva;
 
     }

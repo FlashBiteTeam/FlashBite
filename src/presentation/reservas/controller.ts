@@ -1,10 +1,10 @@
 import { CrearReservaDto } from "../../domain/dtos/auth/reserva-crear.dto";
+import { RestauranteDto } from "../../domain/dtos/auth/restaurant.dto";
 import { CustomError } from "../../domain/errors/custom.errors";
 import { ReservaRepository } from "../../domain/repository/reserva.repository";
-import { RestauranteRepository } from "../../domain/repository/restaurante.repository";
 import { CrearReserva } from "../../domain/use-cases/reservas/create";
-import { SearchAll } from "../../domain/use-cases/search/get-all";
 import { Request, Response } from "express";
+import { RestaurantGetAll } from "../../domain/use-cases/reservas/restaurant-get-all";
 export class ReservasController{
 
     constructor(
@@ -29,4 +29,12 @@ export class ReservasController{
             .catch(error => this.handleError(error,res))
     }
 
+    public reservasActualesRestaurante = (req:Request, res:Response)=>{
+        const [error,restaureDTO] = RestauranteDto.create(req.params.id); 
+        if(error) return res.status(400).json({error});
+        new RestaurantGetAll(this.reservaRepository).execute(restaureDTO!)
+            .then(reservas => res.json({reservas:reservas,msg: `Estas son las reservas para el restaurante ${req.params.id}`}))
+            .catch(error => this.handleError(error,res))
+    
+    }
 }
