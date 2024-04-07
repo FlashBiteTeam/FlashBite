@@ -3,6 +3,7 @@ import { Reserva } from "../../data/mysql/models/reserva";
 import { Restaurante } from "../../data/mysql/models/restaurante.models";
 import { UsuarioEntity } from "../../domain";
 import { ReservaDatasource } from "../../domain/datasources/reserva.datasource";
+import { AgreeReservationDto } from "../../domain/dtos/auth/agree-reservation.dto";
 import { CrearReservaDto } from "../../domain/dtos/auth/reserva-crear.dto";
 import { RestauranteDto } from "../../domain/dtos/auth/restaurant.dto";
 import { ReservaEntity } from "../../domain/entities/reserva.entity";
@@ -10,23 +11,50 @@ import { RestauranteEntity } from "../../domain/entities/restaurante.entity";
 import { CustomError } from "../../domain/errors/custom.errors";
 
 export class MysqlReservaDatasource implements ReservaDatasource{
+    async setStateToTwo(dto: AgreeReservationDto): Promise<ReservaEntity> {
+        try {
+            const reserva = await Reserva.findOne({
+                where: {
+                    id_usuario: dto.emailUsuario,
+                    id_restaurante: dto.emailRestaurante
+                }
+            });
+
+            if (!reserva) {
+                throw CustomError.notFound('Reserva no encontrada');
+            }
+
+            await Reserva.update(
+                { estado: '2' }, 
+                { where: { id_usuario: dto.emailUsuario, id_restaurante: dto.emailRestaurante } } 
+            );
+            const reservaActualizada = await Reserva.findOne({
+                where: {
+                    id_usuario: dto.emailUsuario,
+                    id_restaurante: dto.emailRestaurante
+                }
+            });
+
+            const reservaActualizadaEntity = ReservaEntity.fromObject(reservaActualizada!);
+
+            return reservaActualizadaEntity;
+        } catch (error) {
+            throw (error);
+        }
+    }
 
   async createReserva(dto: CrearReservaDto): Promise<ReservaEntity> {
     try {
-        // Buscar el usuario y el restaurante
         const usuario = await Usuario.findByPk(dto.usuario);
         const restaurante = await Restaurante.findByPk(dto.restaurante);
 
-        // Verificar si el usuario y el restaurante existen
         if (!usuario || !restaurante) {
             throw CustomError.badRequest('Usuario o Restaurante no encontrado');
         }
 
-        // Crear instancias de UsuarioEntity y RestauranteEntity
         const usuarioEntity = UsuarioEntity.fromObject(usuario!);
         const restauranteEntity = RestauranteEntity.fromObject(restaurante!);
 
-        // Verificar si ya existe una reserva con el mismo usuario y restaurante ID
         const existingReserva = await Reserva.findOne({
             where: {
                 id_usuario: usuarioEntity.email,
@@ -34,12 +62,10 @@ export class MysqlReservaDatasource implements ReservaDatasource{
             }
         });
 
-        // Si ya existe una reserva, lanzar un error
         if (existingReserva) {
              throw CustomError.badRequest('Ya existe una reserva para este usuario y restaurante');
         }
 
-        // Crear la reserva
         const reserva = await Reserva.create({
             id_usuario: usuarioEntity.email,
             id_restaurante: restauranteEntity.email,
@@ -47,12 +73,10 @@ export class MysqlReservaDatasource implements ReservaDatasource{
             fecha: dto.fecha
         });
 
-        // Convertir la reserva a una instancia de ReservaEntity
         const reservaResult = ReservaEntity.fromObject(reserva);
 
         return reservaResult;
     } catch (error) {
-        // Manejar cualquier error lanzado durante el proceso
        throw (error);
     }
 }

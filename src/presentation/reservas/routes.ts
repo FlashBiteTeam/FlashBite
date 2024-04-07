@@ -17,6 +17,8 @@ export class ReservasRoutes{
 
         router.post('/create',controllerReservas.create)
         router.get('/restaurant/current-reservations/:id',controllerReservas.reservasActualesRestaurante)
+        router.post('/restaurant/agree/',controllerReservas.aceptarReserva)
+
 
         return router;
     }
