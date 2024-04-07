@@ -11,6 +11,24 @@ import { RestauranteEntity } from "../../domain/entities/restaurante.entity";
 import { CustomError } from "../../domain/errors/custom.errors";
 
 export class MysqlReservaDatasource implements ReservaDatasource{
+
+   async getAgreed(dto: RestauranteDto): Promise<ReservaEntity[]> {
+        try {
+            const reservas = await Reserva.findAll({
+                where: {
+                    id_restaurante: dto.id,
+                    estado: '2',
+                }
+            });
+            if (reservas.length === 0) {
+                throw CustomError.badRequest("No Hay reservas acordadas en el momento");
+            }
+            return reservas.map(reserva => ReservaEntity.fromObject(reserva));
+        } catch (error) {
+            
+            throw (error);
+        }
+    }
     async setStateToTwo(dto: AgreeReservationDto): Promise<ReservaEntity> {
         try {
             const reserva = await Reserva.findOne({

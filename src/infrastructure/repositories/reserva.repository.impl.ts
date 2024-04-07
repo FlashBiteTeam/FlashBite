@@ -10,6 +10,9 @@ export class ReservaRepositoryImpl implements ReservaRepository{
     constructor(
         private readonly reservaDatasource:ReservaDatasource
     ){}
+    getAgreed(dto: RestauranteDto): Promise<ReservaEntity[]> {
+        return this.reservaDatasource.getAgreed(dto);
+    }
     setStateToTwo(dto: AgreeReservationDto): Promise<ReservaEntity> {
         return this.reservaDatasource.setStateToTwo(dto);
     }

@@ -7,6 +7,7 @@ import { Request, Response } from "express";
 import { RestaurantGetAll } from "../../domain/use-cases/reservas/restaurant-get-all";
 import { AgreeReservationDto } from "../../domain/dtos/auth/agree-reservation.dto";
 import { SetToTwo } from "../../domain/use-cases/reservas/set-to-two";
+import { RestaurantGetAgreed } from "../../domain/use-cases/reservas/restaurant-get-agreed";
 export class ReservasController{
 
     constructor(
@@ -46,6 +47,15 @@ export class ReservasController{
         .then(reserva => res.json({reserva,msg: `Reserva Acordada exitosamente`}))
         .catch(error => this.handleError(error,res))
 
-    
     }
+    public reservasAceptadas = (req:Request, res:Response)=>{
+        const [error,restauranteDTO] = RestauranteDto.create(req.params.id); 
+        if(error) return res.status(400).json({error});
+
+        new RestaurantGetAgreed(this.reservaRepository).execute(restauranteDTO!)
+        .then(reservas => res.json({reservas:reservas,msg: `Estas son tus reservas acordadas`}))
+        .catch(error => this.handleError(error,res))
+
+    }
+
 }

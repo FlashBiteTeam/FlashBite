@@ -10,5 +10,6 @@ export abstract class ReservaRepository {
     abstract createReserva(dto:CrearReservaDto):Promise<ReservaEntity>;
     abstract findCurrentByRestaurant(dto: RestauranteDto): Promise<ReservaEntity[]>;
     abstract setStateToTwo(dto: AgreeReservationDto): Promise<ReservaEntity>;
+    abstract getAgreed(dto: RestauranteDto): Promise<ReservaEntity[]>;
 
 }
