@@ -1,5 +1,6 @@
 import { ReservaDatasource } from "../../domain/datasources/reserva.datasource";
 import { AgreeReservationDto } from "../../domain/dtos/auth/agree-reservation.dto";
+import { FinishReservationDto } from "../../domain/dtos/auth/finish-reservation.dto";
 import { CrearReservaDto } from "../../domain/dtos/auth/reserva-crear.dto";
 import { RestauranteDto } from "../../domain/dtos/auth/restaurant.dto";
 import { ReservaEntity } from "../../domain/entities/reserva.entity";
@@ -21,8 +22,12 @@ export class ReservaRepositoryImpl implements ReservaRepository{
         return this.reservaDatasource.createReserva(dto);
     }
     
-    async findCurrentByRestaurant(dto:RestauranteDto): Promise<ReservaEntity[]> {
+    findCurrentByRestaurant(dto:RestauranteDto): Promise<ReservaEntity[]> {
         return this.reservaDatasource.findCurrentByRestaurant(dto)
+
+    }
+    finishReservation(dto: FinishReservationDto): Promise<String> {
+        return this.reservaDatasource.finishReservation(dto)
 
     }
 }

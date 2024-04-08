@@ -8,6 +8,8 @@ import { RestaurantGetAll } from "../../domain/use-cases/reservas/restaurant-get
 import { AgreeReservationDto } from "../../domain/dtos/auth/agree-reservation.dto";
 import { SetToTwo } from "../../domain/use-cases/reservas/set-to-two";
 import { RestaurantGetAgreed } from "../../domain/use-cases/reservas/restaurant-get-agreed";
+import { FinishReservationDto } from "../../domain/dtos/auth/finish-reservation.dto";
+import { FinishReservation } from "../../domain/use-cases/reservas/finish-reservation";
 export class ReservasController{
 
     constructor(
@@ -54,6 +56,16 @@ export class ReservasController{
 
         new RestaurantGetAgreed(this.reservaRepository).execute(restauranteDTO!)
         .then(reservas => res.json({reservas:reservas,msg: `Estas son tus reservas acordadas`}))
+        .catch(error => this.handleError(error,res))
+
+    }
+    
+    public finalizarReserva = (req:Request, res:Response)=>{
+        const [error,finishReservationDto] = FinishReservationDto.create(req.body); 
+        if(error) return res.status(400).json({error});
+
+        new FinishReservation(this.reservaRepository).execute(finishReservationDto!)
+        .then(msg => res.json({msg}))
         .catch(error => this.handleError(error,res))
 
     }

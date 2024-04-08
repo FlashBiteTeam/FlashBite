@@ -1,4 +1,5 @@
 import { AgreeReservationDto } from "../dtos/auth/agree-reservation.dto";
+import { FinishReservationDto } from "../dtos/auth/finish-reservation.dto";
 import { RegisterRestauranteDto } from "../dtos/auth/register-restaurante";
 import { CrearReservaDto } from "../dtos/auth/reserva-crear.dto";
 import { RestauranteDto } from "../dtos/auth/restaurant.dto";
@@ -11,5 +12,6 @@ export abstract class ReservaRepository {
     abstract findCurrentByRestaurant(dto: RestauranteDto): Promise<ReservaEntity[]>;
     abstract setStateToTwo(dto: AgreeReservationDto): Promise<ReservaEntity>;
     abstract getAgreed(dto: RestauranteDto): Promise<ReservaEntity[]>;
+    abstract finishReservation(dto: FinishReservationDto): Promise<String>;
 
 }

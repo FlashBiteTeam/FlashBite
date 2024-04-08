@@ -1,11 +1,15 @@
 import { Usuario } from "../../data";
+import { HistorialRestaurante } from "../../data/mysql/models/historialRestaurante";
+import { HistorialUsuario } from "../../data/mysql/models/historialUsuarios";
 import { Reserva } from "../../data/mysql/models/reserva";
 import { Restaurante } from "../../data/mysql/models/restaurante.models";
 import { UsuarioEntity } from "../../domain";
 import { ReservaDatasource } from "../../domain/datasources/reserva.datasource";
 import { AgreeReservationDto } from "../../domain/dtos/auth/agree-reservation.dto";
+import { FinishReservationDto } from "../../domain/dtos/auth/finish-reservation.dto";
 import { CrearReservaDto } from "../../domain/dtos/auth/reserva-crear.dto";
 import { RestauranteDto } from "../../domain/dtos/auth/restaurant.dto";
+import { HistorialEntity } from "../../domain/entities/historial.entity";
 import { ReservaEntity } from "../../domain/entities/reserva.entity";
 import { RestauranteEntity } from "../../domain/entities/restaurante.entity";
 import { CustomError } from "../../domain/errors/custom.errors";
@@ -110,6 +114,31 @@ async findCurrentByRestaurant(dto: RestauranteDto): Promise<ReservaEntity[]> {
             throw CustomError.badRequest("No Hay reservas en el momento");
         }
         return reservas.map(reserva => ReservaEntity.fromObject(reserva));
+    } catch (error) {
+        
+        throw (error);
+    }
+}
+async finishReservation(dto: FinishReservationDto): Promise<String> {
+    try {
+        let foundReserva = await Reserva.findOne({
+            where: {
+                id_usuario: dto.emailUsuario,
+                id_restaurante: dto.emailRestaurante
+            }
+        });
+        console.log(foundReserva)
+        const reservas = await Reserva.destroy({
+            where: {
+                id_restaurante: dto.emailRestaurante,
+                id_usuario: dto.emailUsuario,
+                estado: '2'
+            }
+        });
+        const ReservaHistorial = HistorialEntity.fromObject(foundReserva!);
+        const historialUsuario = await HistorialUsuario.create({...ReservaHistorial,estado:'1'});
+        const historialRestaurante = await HistorialRestaurante.create({...ReservaHistorial,estado:'1'});
+        return 'Reservación finalizada y pendiente por realimentación';
     } catch (error) {
         
         throw (error);

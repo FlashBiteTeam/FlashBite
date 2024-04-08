@@ -19,6 +19,7 @@ export class ReservasRoutes{
         router.get('/restaurant/current-reservations/:id',controllerReservas.reservasActualesRestaurante)
         router.post('/restaurant/agree/',controllerReservas.aceptarReserva)
         router.get('/restaurant/agreed-reservations/:id',controllerReservas.reservasAceptadas)
+        router.post('/restaurant/end-reservations/',controllerReservas.finalizarReserva)
 
 
         return router;
