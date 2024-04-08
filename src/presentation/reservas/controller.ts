@@ -10,6 +10,8 @@ import { SetToTwo } from "../../domain/use-cases/reservas/set-to-two";
 import { RestaurantGetAgreed } from "../../domain/use-cases/reservas/restaurant-get-agreed";
 import { FinishReservationDto } from "../../domain/dtos/reservas/finish-reservation.dto";
 import { FinishReservation } from "../../domain/use-cases/reservas/finish-reservation";
+import { ResenaDto } from "../../domain/dtos/reservas/resena.dto";
+import { Resenar } from "../../domain/use-cases/reservas/resenar";
 export class ReservasController{
 
     constructor(
@@ -24,6 +26,7 @@ export class ReservasController{
         return res.status(500).json({error: 'Internal server error'});
     }
 
+    //* Crear reserva por el Usuario
     public create = (req:Request, res:Response)=>{
         const [error, crearReservaDto] = CrearReservaDto.create(req.body);
         console.log(crearReservaDto)
@@ -34,6 +37,7 @@ export class ReservasController{
             .catch(error => this.handleError(error,res))
     }
 
+    //* Mirar las reservas Actuales de un restaurante
     public reservasActualesRestaurante = (req:Request, res:Response)=>{
         const [error,restaureDTO] = RestauranteDto.create(req.params.id); 
         if(error) return res.status(400).json({error});
@@ -42,6 +46,8 @@ export class ReservasController{
             .catch(error => this.handleError(error,res))
     
     }
+    
+    //* Restaurante Aceptar Reserva
     public aceptarReserva = (req:Request, res:Response)=>{
         const [error,agreeReservationDto] = AgreeReservationDto.create(req.body); 
         if(error) return res.status(400).json({error});
@@ -50,6 +56,8 @@ export class ReservasController{
         .catch(error => this.handleError(error,res))
 
     }
+
+    //* Reservas de un Restaurante Aceptadas
     public reservasAceptadas = (req:Request, res:Response)=>{
         const [error,restauranteDTO] = RestauranteDto.create(req.params.id); 
         if(error) return res.status(400).json({error});
@@ -60,6 +68,7 @@ export class ReservasController{
 
     }
     
+    //* Terminar Reserva de restaurante
     public finalizarReserva = (req:Request, res:Response)=>{
         const [error,finishReservationDto] = FinishReservationDto.create(req.body); 
         if(error) return res.status(400).json({error});
@@ -70,14 +79,15 @@ export class ReservasController{
 
     }
 
+    //* Usuario califica y comenta una reserva
     public resenarReserva = (req:Request, res:Response)=>{
         const [error,resenaDto] = ResenaDto.create(req.body);
  
         if(error) return res.status(400).json({error});
 
-        new FinishReservation(this.reservaRepository).execute(finishReservationDto!)
-        .then(msg => res.json({msg}))
-        .catch(error => this.handleError(error,res))
+        new Resenar(this.reservaRepository).execute(resenaDto!)
+            .then(msg => res.json({msg}))
+            .catch(error => this.handleError(error,res))
 
     }
 

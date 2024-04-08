@@ -5,7 +5,7 @@ export class ResenaDto{
         public readonly emailUsuario:string,
         public readonly emailRestaurante:string,
         public readonly comentario:string,
-        public readonly califcacion:string,
+        public readonly calificacion:string,
         public readonly hora:string,
         public readonly fecha:string,
 

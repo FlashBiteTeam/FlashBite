@@ -13,8 +13,31 @@ import { HistorialEntity } from "../../domain/entities/historial.entity";
 import { ReservaEntity } from "../../domain/entities/reserva.entity";
 import { RestauranteEntity } from "../../domain/entities/restaurante.entity";
 import { CustomError } from "../../domain/errors/custom.errors";
+import { ResenaDto } from "../../domain/dtos/reservas/resena.dto";
 
 export class MysqlReservaDatasource implements ReservaDatasource{
+
+    async resenar(dto: ResenaDto): Promise<String> {
+
+        try {
+            console.log(dto)
+            await HistorialUsuario.update(
+                {...dto,
+                estado: '2'
+                }, 
+                { where: { id_usuario: dto.emailUsuario, id_restaurante: dto.emailRestaurante, hora:dto.hora , fecha: dto.fecha } } 
+            );
+            await HistorialRestaurante.update(
+                {...dto}, 
+                { where: { id_usuario: dto.emailUsuario, id_restaurante: dto.emailRestaurante, hora:dto.hora , fecha: dto.fecha } } 
+            );
+
+            return 'Reseña realizada'
+        } catch (error) {
+            throw(error)
+        }
+
+    }
 
    async getAgreed(dto: RestauranteDto): Promise<ReservaEntity[]> {
         try {
