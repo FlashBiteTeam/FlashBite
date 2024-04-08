@@ -1,7 +1,7 @@
-import { AgreeReservationDto } from "../dtos/auth/agree-reservation.dto";
-import { FinishReservationDto } from "../dtos/auth/finish-reservation.dto";
+import { AgreeReservationDto } from "../dtos/reservas/agree-reservation.dto";
+import { FinishReservationDto } from "../dtos/reservas/finish-reservation.dto";
 import { RegisterRestauranteDto } from "../dtos/auth/register-restaurante";
-import { CrearReservaDto } from "../dtos/auth/reserva-crear.dto";
+import { CrearReservaDto } from "../dtos/reservas/reserva-crear.dto";
 import { RestauranteDto } from "../dtos/auth/restaurant.dto";
 import { VerifyOTPDto } from "../dtos/auth/verify-otp.dtp.t";
 import { ReservaEntity } from "../entities/reserva.entity";

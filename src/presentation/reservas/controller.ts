@@ -1,14 +1,14 @@
-import { CrearReservaDto } from "../../domain/dtos/auth/reserva-crear.dto";
+import { CrearReservaDto } from "../../domain/dtos/reservas/reserva-crear.dto";
 import { RestauranteDto } from "../../domain/dtos/auth/restaurant.dto";
 import { CustomError } from "../../domain/errors/custom.errors";
 import { ReservaRepository } from "../../domain/repository/reserva.repository";
 import { CrearReserva } from "../../domain/use-cases/reservas/create";
 import { Request, Response } from "express";
 import { RestaurantGetAll } from "../../domain/use-cases/reservas/restaurant-get-all";
-import { AgreeReservationDto } from "../../domain/dtos/auth/agree-reservation.dto";
+import { AgreeReservationDto } from "../../domain/dtos/reservas/agree-reservation.dto";
 import { SetToTwo } from "../../domain/use-cases/reservas/set-to-two";
 import { RestaurantGetAgreed } from "../../domain/use-cases/reservas/restaurant-get-agreed";
-import { FinishReservationDto } from "../../domain/dtos/auth/finish-reservation.dto";
+import { FinishReservationDto } from "../../domain/dtos/reservas/finish-reservation.dto";
 import { FinishReservation } from "../../domain/use-cases/reservas/finish-reservation";
 export class ReservasController{
 
@@ -62,6 +62,17 @@ export class ReservasController{
     
     public finalizarReserva = (req:Request, res:Response)=>{
         const [error,finishReservationDto] = FinishReservationDto.create(req.body); 
+        if(error) return res.status(400).json({error});
+
+        new FinishReservation(this.reservaRepository).execute(finishReservationDto!)
+        .then(msg => res.json({msg}))
+        .catch(error => this.handleError(error,res))
+
+    }
+
+    public resenarReserva = (req:Request, res:Response)=>{
+        const [error,resenaDto] = ResenaDto.create(req.body);
+ 
         if(error) return res.status(400).json({error});
 
         new FinishReservation(this.reservaRepository).execute(finishReservationDto!)

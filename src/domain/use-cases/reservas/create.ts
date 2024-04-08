@@ -1,5 +1,5 @@
 
-import { CrearReservaDto } from "../../dtos/auth/reserva-crear.dto";
+import { CrearReservaDto } from "../../dtos/reservas/reserva-crear.dto";
 import { ReservaEntity } from "../../entities/reserva.entity";
 import { ReservaRepository } from "../../repository/reserva.repository";
 

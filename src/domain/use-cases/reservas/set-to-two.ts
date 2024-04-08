@@ -1,4 +1,4 @@
-import { AgreeReservationDto } from "../../dtos/auth/agree-reservation.dto";
+import { AgreeReservationDto } from "../../dtos/reservas/agree-reservation.dto";
 import { RestauranteDto } from "../../dtos/auth/restaurant.dto";
 import { ReservaEntity } from "../../entities/reserva.entity";
 import { RestauranteEntity } from "../../entities/restaurante.entity";
