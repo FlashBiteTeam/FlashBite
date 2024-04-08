@@ -4,6 +4,8 @@ import { CrearReservaDto } from "../dtos/reservas/reserva-crear.dto";
 import { RestauranteDto } from "../dtos/auth/restaurant.dto";
 import { ReservaEntity } from "../entities/reserva.entity";
 import { ResenaDto } from "../dtos/reservas/resena.dto";
+import { UserDto } from "../dtos/auth/user.dto";
+import { HistorialEntity } from "../entities/historial.entity";
 
 export abstract class ReservaDatasource {
     
@@ -13,6 +15,9 @@ export abstract class ReservaDatasource {
     abstract getAgreed(dto: RestauranteDto): Promise<ReservaEntity[]>;
     abstract finishReservation(dto: FinishReservationDto): Promise<String>;
     abstract resenar(dto: ResenaDto): Promise<String>;
+    abstract findCurrentByUser(dto: UserDto): Promise<ReservaEntity[]>
+    abstract getUserHistorial(dto: UserDto): Promise<HistorialEntity[]>
+    abstract getRestauranteHistorial(dto: RestauranteDto): Promise<HistorialEntity[]>
 
     
 }

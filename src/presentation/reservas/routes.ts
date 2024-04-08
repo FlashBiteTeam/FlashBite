@@ -21,6 +21,11 @@ export class ReservasRoutes{
         router.get('/restaurant/agreed-reservations/:id',controllerReservas.reservasAceptadas)
         router.post('/restaurant/end-reservations/',controllerReservas.finalizarReserva)
         router.post('/user/review',controllerReservas.resenarReserva)
+        router.get('/user/current-reservations/:id',controllerReservas.reservasActualesUsuario)
+
+        router.get('/user/record/:id',controllerReservas.historialUsuario)
+        router.get('/restaurant/record/:id',controllerReservas.historialRestaurante)
+
 
 
         return router;

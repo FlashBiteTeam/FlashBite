@@ -9,7 +9,6 @@ export class CrearReservaDto{
     ){}
 
     static create(object: {[key:string]:any}):[string?,CrearReservaDto?]{
-        const horaActual = Date.now();
         const {restaurante, usuario, hora, fecha} = object;
 
         if(!restaurante) return ['Missing Restaurante email addres', undefined];

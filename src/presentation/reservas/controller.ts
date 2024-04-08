@@ -12,6 +12,10 @@ import { FinishReservationDto } from "../../domain/dtos/reservas/finish-reservat
 import { FinishReservation } from "../../domain/use-cases/reservas/finish-reservation";
 import { ResenaDto } from "../../domain/dtos/reservas/resena.dto";
 import { Resenar } from "../../domain/use-cases/reservas/resenar";
+import { UserDto } from "../../domain/dtos/auth/user.dto";
+import { UserGetAll } from "../../domain/use-cases/reservas/user-get-all";
+import { UserGetRecord } from "../../domain/use-cases/reservas/user-record";
+import { RestaurantGetRecord } from "../../domain/use-cases/reservas/restaurant-record";
 export class ReservasController{
 
     constructor(
@@ -47,6 +51,7 @@ export class ReservasController{
     
     }
     
+
     //* Restaurante Aceptar Reserva
     public aceptarReserva = (req:Request, res:Response)=>{
         const [error,agreeReservationDto] = AgreeReservationDto.create(req.body); 
@@ -91,4 +96,35 @@ export class ReservasController{
 
     }
 
-}
+    //* Traer todas las reservas actuales del Usuario
+
+    public reservasActualesUsuario = (req:Request, res:Response)=>{
+        const [error,userDTO] = UserDto.create(req.params.id); 
+        if(error) return res.status(400).json({error});
+        new UserGetAll(this.reservaRepository).execute(userDTO!)
+            .then(reservas => res.json({reservas:reservas,msg: `Estas son las reservas para el usuario ${req.params.id}`}))
+            .catch(error => this.handleError(error,res))
+    
+    }
+    
+    //* Traer Historial del usuario
+    public historialUsuario = (req:Request, res:Response)=>{
+        const [error,userDTO] = UserDto.create(req.params.id); 
+        if(error) return res.status(400).json({error});
+        new UserGetRecord(this.reservaRepository).execute(userDTO!)
+            .then(reservas => res.json({reservas:reservas,msg: `Estas son tus reservas pasadas ${req.params.id}`}))
+            .catch(error => this.handleError(error,res))
+    
+    }
+
+    //* Traer Historial del restaurante
+    public historialRestaurante = (req:Request, res:Response)=>{
+        const [error,restauranteDTO] = RestauranteDto.create(req.params.id); 
+        if(error) return res.status(400).json({error});
+        new RestaurantGetRecord(this.reservaRepository).execute(restauranteDTO!)
+            .then(reservas => res.json({reservas:reservas,msg: `Estas son tus reservas pasadas ${req.params.id}`}))
+            .catch(error => this.handleError(error,res))
+    
+    }
+
+}   

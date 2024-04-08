@@ -14,8 +14,42 @@ import { ReservaEntity } from "../../domain/entities/reserva.entity";
 import { RestauranteEntity } from "../../domain/entities/restaurante.entity";
 import { CustomError } from "../../domain/errors/custom.errors";
 import { ResenaDto } from "../../domain/dtos/reservas/resena.dto";
+import { UserDto } from "../../domain/dtos/auth/user.dto";
 
 export class MysqlReservaDatasource implements ReservaDatasource{
+    
+    async getUserHistorial(dto: UserDto): Promise<HistorialEntity[]> {
+        try {
+            const historial = await HistorialUsuario.findAll({
+                where: {
+                    id_usuario: dto.id
+                }
+            });
+            if (historial.length === 0) {
+                throw CustomError.badRequest("No Hay reservas en el historial del Usuario");
+            }
+            return historial.map(element => HistorialEntity.fromObject(element));
+        } catch (error) {
+            
+            throw (error);
+        }
+    }
+    async getRestauranteHistorial(dto: RestauranteDto): Promise<HistorialEntity[]> {
+        try {
+            const historial = await HistorialRestaurante.findAll({
+                where: {
+                    id_restaurante: dto.id
+                }
+            })
+            if (historial.length === 0) {
+                throw CustomError.badRequest("No Hay reservas en el historial del Usuario");
+            }
+            return historial.map(element => HistorialEntity.fromObject(element));
+        } catch (error) {
+            
+            throw (error);
+        }
+    }    
 
     async resenar(dto: ResenaDto): Promise<String> {
 
@@ -125,7 +159,22 @@ export class MysqlReservaDatasource implements ReservaDatasource{
        throw (error);
     }
 }
-
+async findCurrentByUser(dto: UserDto): Promise<ReservaEntity[]> {
+    try {
+        const reservas = await Reserva.findAll({
+            where: {
+                id_usuario: dto.id
+            }
+        });
+        if (reservas.length === 0) {
+            throw CustomError.badRequest("No Hay reservas en el momento para el usuario");
+        }
+        return reservas.map(reserva => ReservaEntity.fromObject(reserva));
+    } catch (error) {
+        
+        throw (error);
+    }
+}
 async findCurrentByRestaurant(dto: RestauranteDto): Promise<ReservaEntity[]> {
     try {
         const reservas = await Reserva.findAll({

@@ -23,7 +23,7 @@ export class HistorialEntity {
             id_restaurante,
             id_usuario,
             comentario ,
-            calificacion , // Si no se proporciona la calificación, se establece como una cadena vacía
+            calificacion , 
             hora,
             fecha,
             estado
