@@ -31,7 +31,7 @@ export class ReservasController{
     }
 
     //* Crear reserva por el Usuario
-    public create = (req:Request, res:Response)=>{
+     create = (req:Request, res:Response)=>{
         const [error, crearReservaDto] = CrearReservaDto.create(req.body);
         console.log(crearReservaDto)
         if(error) return res.status(400).json({error});
@@ -42,7 +42,7 @@ export class ReservasController{
     }
 
     //* Mirar las reservas Actuales de un restaurante
-    public reservasActualesRestaurante = (req:Request, res:Response)=>{
+     reservasActualesRestaurante = (req:Request, res:Response)=>{
         const [error,restaureDTO] = RestauranteDto.create(req.params.id); 
         if(error) return res.status(400).json({error});
         new RestaurantGetAll(this.reservaRepository).execute(restaureDTO!)
@@ -53,7 +53,7 @@ export class ReservasController{
     
 
     //* Restaurante Aceptar Reserva
-    public aceptarReserva = (req:Request, res:Response)=>{
+     aceptarReserva = (req:Request, res:Response)=>{
         const [error,agreeReservationDto] = AgreeReservationDto.create(req.body); 
         if(error) return res.status(400).json({error});
         new SetToTwo(this.reservaRepository).execute(agreeReservationDto!)
@@ -63,7 +63,7 @@ export class ReservasController{
     }
 
     //* Reservas de un Restaurante Aceptadas
-    public reservasAceptadas = (req:Request, res:Response)=>{
+     reservasAceptadas = (req:Request, res:Response)=>{
         const [error,restauranteDTO] = RestauranteDto.create(req.params.id); 
         if(error) return res.status(400).json({error});
 
@@ -74,7 +74,7 @@ export class ReservasController{
     }
     
     //* Terminar Reserva de restaurante
-    public finalizarReserva = (req:Request, res:Response)=>{
+     finalizarReserva = (req:Request, res:Response)=>{
         const [error,finishReservationDto] = FinishReservationDto.create(req.body); 
         if(error) return res.status(400).json({error});
 
@@ -85,7 +85,7 @@ export class ReservasController{
     }
 
     //* Usuario califica y comenta una reserva
-    public resenarReserva = (req:Request, res:Response)=>{
+     resenarReserva = (req:Request, res:Response)=>{
         const [error,resenaDto] = ResenaDto.create(req.body);
  
         if(error) return res.status(400).json({error});
@@ -98,7 +98,7 @@ export class ReservasController{
 
     //* Traer todas las reservas actuales del Usuario
 
-    public reservasActualesUsuario = (req:Request, res:Response)=>{
+     reservasActualesUsuario = (req:Request, res:Response)=>{
         const [error,userDTO] = UserDto.create(req.params.id); 
         if(error) return res.status(400).json({error});
         new UserGetAll(this.reservaRepository).execute(userDTO!)
@@ -108,7 +108,7 @@ export class ReservasController{
     }
     
     //* Traer Historial del usuario
-    public historialUsuario = (req:Request, res:Response)=>{
+     historialUsuario = (req:Request, res:Response)=>{
         const [error,userDTO] = UserDto.create(req.params.id); 
         if(error) return res.status(400).json({error});
         new UserGetRecord(this.reservaRepository).execute(userDTO!)
@@ -118,7 +118,7 @@ export class ReservasController{
     }
 
     //* Traer Historial del restaurante
-    public historialRestaurante = (req:Request, res:Response)=>{
+     historialRestaurante = (req:Request, res:Response)=>{
         const [error,restauranteDTO] = RestauranteDto.create(req.params.id); 
         if(error) return res.status(400).json({error});
         new RestaurantGetRecord(this.reservaRepository).execute(restauranteDTO!)
