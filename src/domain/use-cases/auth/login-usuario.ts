@@ -13,6 +13,7 @@ export interface UserLoginUseCase{
 }
 interface LoginResult {
     user: Partial<UsuarioEntity | RestauranteEntity>; 
+    tipo: string;
     token: {}; 
 }
 
@@ -39,6 +40,7 @@ export class UserLogin implements UserLoginUseCase{
                 return{
                     user: userEntity,
                     token: token,
+                    tipo: 'usuario'
                 }
             }
             if(existRestaurante){
@@ -51,6 +53,7 @@ export class UserLogin implements UserLoginUseCase{
                 return{
                     user: restauranteEntity,
                     token: token,
+                    tipo: 'restaurante'
                 }
             }else{
 
