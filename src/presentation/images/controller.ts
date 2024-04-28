@@ -10,7 +10,6 @@ export class ImageController{
     restauranteImg = async (req:Request, res:Response)=>{
         try {
           const {email} = req.body;
-          console.log(req.file)
           const {buffer} = req.file!;
           const containerClient = blobService.getContainerClient('restaurantes');
 

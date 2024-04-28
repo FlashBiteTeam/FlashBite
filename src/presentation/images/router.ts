@@ -14,7 +14,7 @@ export class ImageRouter{
         router.post('/usuarios', upload.single("file"), imageController.usuariosImg)
 
         router.get('/restaurante/:email', imageController.getBlobRestaurantes)
-        router.post('/usuarios/:email', imageController.getBlobUsuarios)
+        router.get('/usuarios/:email', imageController.getBlobUsuarios)
 
         return router;
 

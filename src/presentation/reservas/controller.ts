@@ -33,7 +33,6 @@ export class ReservasController{
     //* Crear reserva por el Usuario
      create = (req:Request, res:Response)=>{
         const [error, crearReservaDto] = CrearReservaDto.create(req.body);
-        console.log(crearReservaDto)
         if(error) return res.status(400).json({error});
         
         new CrearReserva(this.reservaRepository).execute(crearReservaDto!)
