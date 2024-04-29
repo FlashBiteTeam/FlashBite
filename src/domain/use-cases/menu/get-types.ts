@@ -13,13 +13,16 @@ export class getTypes implements getTypesUseCase {
         const menuItems = await this.repository.getTypes(dto);
     
         if (!menuItems) {
-            
             return null;
         }
     
-        
-        const tipos = menuItems.map(menuItem => menuItem.tipo);
+        const uniqueTypesSet = new Set<string>();
+        menuItems.forEach(menuItem => {
+            uniqueTypesSet.add(menuItem.tipo);
+        });
     
-        return tipos;
+        const uniqueTypesArray = Array.from(uniqueTypesSet);
+    
+        return uniqueTypesArray;
     }
 }
