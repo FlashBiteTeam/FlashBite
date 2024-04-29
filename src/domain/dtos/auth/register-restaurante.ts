@@ -8,9 +8,10 @@ export class RegisterRestauranteDto{
         public readonly nit:string,
         public readonly contrasena:string,
         public readonly numero:string,
+        public readonly tipoComida?:string,
     ){}
     static create(object: {[key:string]:any}):[string?,RegisterRestauranteDto?]{
-        const {nombre, direccion, email, nit,contrasena,numero} = object;
+        const {nombre, direccion, email, nit,contrasena,numero, tipoComida} = object;
 
         if(!nombre) return ['Missing name', undefined];
 
@@ -28,7 +29,7 @@ export class RegisterRestauranteDto{
 
         if(!numero) return['Missing numero de telefono', undefined];
 
-        return [undefined, new RegisterRestauranteDto(nombre, direccion, email, nit,contrasena,numero)]
+        return [undefined, new RegisterRestauranteDto(nombre, direccion, email, nit,contrasena,numero,tipoComida)]
 
     }
 }

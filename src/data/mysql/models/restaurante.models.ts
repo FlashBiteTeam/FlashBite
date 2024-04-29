@@ -36,6 +36,10 @@ export const Restaurante = db.define('restaurante', {
     numero: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    tipoComida:{
+        type: DataTypes.STRING,
+        allowNull: true
     }
 });
 

@@ -5,12 +5,21 @@ import { RestauranteDatasource } from "../../domain/datasources/restaurante.data
 import { RegisterRestauranteDto } from "../../domain/dtos/auth/register-restaurante";
 import { VerifyOTPDto } from "../../domain/dtos/auth/verify-otp.dtp.t";
 import { RestauranteEntity } from "../../domain/entities/restaurante.entity";
+import { CrearPlatoDto } from "../../domain/dtos/menu/create-plate.dto";
+import { Menu } from "../../data/mysql/models/menu";
+import { MenuEntity } from "../../domain/entities/menu.entity";
+import { time } from "console";
+import { RestauranteDto } from "../../domain/dtos/auth/restaurant.dto";
+import { GetPlatesDto } from "../../domain/dtos/menu/get-plates";
 
 interface RestauranteBusquedaEntity extends RestauranteEntity {
     calificacionPromedio: string;
 }
 export class MysqlRestauranteDatasource implements RestauranteDatasource{
 
+   
+    
+  
     async findOne(email: string, emailValidado: boolean): Promise<RestauranteEntity | null> {
         const restaurante = await Restaurante.findOne({ where: {email: email,emailValidado: emailValidado}});
         if(restaurante) return RestauranteEntity.fromObject(restaurante);
@@ -25,7 +34,8 @@ export class MysqlRestauranteDatasource implements RestauranteDatasource{
             email: dto.email,
             nit: dto.nit,
             contrasena: dto.contrasena,
-            numero: dto.numero
+            numero: dto.numero,
+            tipoComida: dto.tipoComida
             
         };
         const user = await Restaurante.create(restauranteModel);
@@ -82,4 +92,74 @@ export class MysqlRestauranteDatasource implements RestauranteDatasource{
             throw error;
         }
     }
+
+    
+    async createPlate(dto:CrearPlatoDto):Promise<MenuEntity>{
+        try {
+
+            const menuModel = {
+                id_restaurante: dto.id_restaurante,
+                tipo:dto.tipo,
+                nombre_plato: dto.nombre_plato,
+                precio: dto.precio,
+                descripcion: dto.descripcion,
+                
+            };
+            console.log(menuModel)
+            const menu = await Menu.create(menuModel);
+
+            return MenuEntity.fromObject(menu);
+
+        } catch (error) {
+            throw error;
+        }
+    }
+  
+    async deletePate(namePlate: string,restaurante:string): Promise<MenuEntity>{
+
+        const menu = await Menu.findOne({
+            where: {
+                nombre_plato: namePlate
+            }
+        });
+
+        if (!menu) {
+            throw new Error(`No se encontró ningún plato con el nombre ${namePlate}`);
+        }
+
+        const menuEntity = MenuEntity.fromObject(menu);
+
+
+        await Menu.destroy({
+            where: {
+                id_restaurante:restaurante,
+                nombre_plato: namePlate
+            }
+        });
+        return menuEntity;
+    }
+
+    async getTypes(id:RestauranteDto): Promise<MenuEntity[] | null>{
+        
+        
+        const menu = await Menu.findAll({
+            where: {
+                id_restaurante:id.id
+            }
+        });
+
+        return menu.map(plate => MenuEntity.fromObject(plate));
+    }
+    async getPlates(dto: GetPlatesDto): Promise<MenuEntity[]>{
+        
+        const menu = await Menu.findAll({
+            where: {
+                id_restaurante:dto.id,
+                tipo: dto.type
+            }
+        });
+
+        return menu.map(plate => MenuEntity.fromObject(plate));
+    }
+
 }

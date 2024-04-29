@@ -22,6 +22,5 @@ async function main(){
    
 
     await dbConnection();
-
-
+  
 }

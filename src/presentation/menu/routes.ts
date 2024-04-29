@@ -14,8 +14,8 @@ export class MenuRoutes{
         const controllerMenu = new MenuController(restauranteRepository);
 
         router.post('/add/plate',controllerMenu.addPlate);
-        router.get('/get/types',controllerMenu.getTypes)
-        router.get('/get/plates',controllerMenu.getPlates)
+        router.get('/get/types/:id',controllerMenu.getTypes)
+        router.get('/get/plates/:id/:type',controllerMenu.getPlates)
         router.delete('/delete/plate',controllerMenu.deletePlate)
 
 

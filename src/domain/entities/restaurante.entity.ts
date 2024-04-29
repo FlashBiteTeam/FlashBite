@@ -9,12 +9,13 @@ export class RestauranteEntity{
         public numero: string,
         public direccion: string,
         public nit: string,
+        public tipoComida?: string,
     
     ){}
 
 
     static fromObject(object:{[key:string]:any}){
-        const {nombre, email, emailValidado, contrasena, numero,direccion, nit} = object;
+        const {nombre, email, emailValidado, contrasena, numero,direccion, nit,tipoComida} = object;
 
 
         if(!nombre) throw CustomError.badRequest('Missing name');
@@ -33,16 +34,16 @@ export class RestauranteEntity{
 
 
         
-        return new RestauranteEntity(nombre, email, emailValidado, contrasena, numero,direccion, nit);
+        return new RestauranteEntity(nombre, email, emailValidado, contrasena, numero,direccion, nit,tipoComida);
         
     }
 
     static fromJson = (json:string):RestauranteEntity =>{
 
         json = (json=== '') ? '{}': json;
-        const {nombre, email, emailValidado, contrasena, numero,direccion, nit} = JSON.parse(json);
+        const {nombre, email, emailValidado, contrasena, numero,direccion, nit,tipoComida} = JSON.parse(json);
         const usuario = new RestauranteEntity(
-            nombre, email, emailValidado, contrasena, numero,direccion, nit);
+            nombre, email, emailValidado, contrasena, numero,direccion, nit,tipoComida);
         return usuario;
 
     }
