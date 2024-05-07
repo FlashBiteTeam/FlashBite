@@ -8,8 +8,9 @@ export class ProfileRoutes{
 
         const profileController = new ProfileController;
 
-        // router.post('/edit/user', profileController.editUserInfo)
-        router.post('/edit/restaurant', profileController.editRestaurantInfo)
+        router.put('/edit/user', profileController.editUserInfo)
+        router.put('/edit/restaurant', profileController.editRestaurantInfo)
+        router.get('/get/user/:email', profileController.getUser)
 
 
         return router;
