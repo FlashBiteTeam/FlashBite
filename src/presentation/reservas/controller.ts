@@ -76,19 +76,16 @@ export class ReservasController{
      finalizarReserva = (req:Request, res:Response)=>{
         const [error,finishReservationDto] = FinishReservationDto.create(req.body); 
         if(error) return res.status(400).json({error});
-
         new FinishReservation(this.reservaRepository).execute(finishReservationDto!)
         .then(msg => res.json({msg}))
         .catch(error => this.handleError(error,res))
-
     }
 
     //* Usuario califica y comenta una reserva
      resenarReserva = (req:Request, res:Response)=>{
         const [error,resenaDto] = ResenaDto.create(req.body);
- 
         if(error) return res.status(400).json({error});
-
+        
         new Resenar(this.reservaRepository).execute(resenaDto!)
             .then(msg => res.json({msg}))
             .catch(error => this.handleError(error,res))
