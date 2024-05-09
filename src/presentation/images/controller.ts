@@ -48,12 +48,11 @@ export class ImageController{
     getBlobUsuarios = async (req:Request, res:Response)=>{
         try {
           const {email} = req.params;
-          console.log(req.file)
-          const {buffer} = req.file!;
+          
           const containerClient = blobService.getContainerClient('usuarios');
 
           res.header("Content-Type","image/jpg")
-          const response = await containerClient.getBlockBlobClient(`${email}.jpg`).downloadToBuffer(buffer)
+          const response = await containerClient.getBlockBlobClient(`${email}.jpg`).downloadToBuffer()
           res.send(response)
         } catch (error) {
             res.status(500).json(error)

@@ -8,8 +8,6 @@ export const envs = {
     MYSQL_PORT: get('MYSQL_PORT').required().asPortNumber(),
     MYSQL_USERNAME: get('MYSQL_USERNAME').required().asString(),
     MYSQL_HOST: get('MYSQL_HOST').required().asString(),
-    MONGO_DB_NAME: get('MONGO_DB_NAME').required().asString(),
-    MONGO_URL: get('MONGO_URL').required().asString(),
     MAILER_SERVICE:get('MAILER_SERVICE').required().asString(),
     MAILER_EMAIL:get('MAILER_EMAIL').required().asString(),
     MAILER_SECRET_KEY:get('MAILER_SECRET_KEY').required().asString(),
