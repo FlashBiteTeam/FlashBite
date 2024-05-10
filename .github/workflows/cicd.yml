@@ -17,8 +17,19 @@ jobs:
         with:
           node-version: '18.x'
 
-      - name: Set up PORT environment variable
-        run: echo "PORT=8080" >> $GITHUB_ENV
+      - name: Set up environment variables
+        run: |
+          echo "PORT=8080" >> $GITHUB_ENV
+          echo "MYSQL_DB=flashbite" >> $GITHUB_ENV
+          echo "MYSQL_PORT=3306" >> $GITHUB_ENV
+          echo "MYSQL_ROOT_PASSWORD=integrador03202401*" >> $GITHUB_ENV
+          echo "MYSQL_USERNAME=flashbite" >> $GITHUB_ENV
+          echo "MYSQL_HOST=flashbite-mysql-server.mysql.database.azure.com" >> $GITHUB_ENV
+          echo "MAILER_SERVICE=gmail" >> $GITHUB_ENV
+          echo "MAILER_EMAIL=jorgepinilla2002@gmail.com" >> $GITHUB_ENV
+          echo "MAILER_SECRET_KEY=paff vtbb kkvp wmmj" >> $GITHUB_ENV
+          echo "JWT_SEED=flashbiteIntegrador" >> $GITHUB_ENV
+          echo "AZURE_STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=https;AccountName=flashbiteimgs;AccountKey=iNrqu/Br6j/noNYZnwuNm5Lj3DasRO7XL7L5lfq/MfeqkkpeiqJCwRnd3LI02un6oyMklpJ5hY3E+AStRZJfHw==;EndpointSuffix=core.windows.net" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: npm install
