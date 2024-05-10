@@ -35,7 +35,7 @@ jobs:
         run: npm install
 
       - name: Run app
-        run: npm start
+        run: npm run build
 
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v2
