@@ -4,20 +4,28 @@ on:
   push:
     branches:
       - main
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source
         uses: actions/checkout@v3
+
       - name: Setup Node.js version
         uses: actions/setup-node@v4
         with:
           node-version: '18.x'
+
+      - name: Set up PORT environment variable
+        run: echo "PORT=8080" >> $GITHUB_ENV
+
       - name: Install Dependencies
         run: npm install
+
       - name: Run app
         run: npm start
+
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v2
         with:
