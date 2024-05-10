@@ -31,11 +31,13 @@ jobs:
           echo "JWT_SEED=flashbiteIntegrador" >> $GITHUB_ENV
           echo "AZURE_STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=https;AccountName=flashbiteimgs;AccountKey=iNrqu/Br6j/noNYZnwuNm5Lj3DasRO7XL7L5lfq/MfeqkkpeiqJCwRnd3LI02un6oyMklpJ5hY3E+AStRZJfHw==;EndpointSuffix=core.windows.net" >> $GITHUB_ENV
 
+      - name: Delete Dependencies
+        run: npm ci
       - name: Install Dependencies
         run: npm install
 
-      - name: Run app
-        run: npm start
+      - name: Run build
+        run: npm run build
 
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v2
