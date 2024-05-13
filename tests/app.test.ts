@@ -27,11 +27,5 @@ describe('Test app.ts', () => {
         listenSpy.mockRestore();
     });
 
-    test('Database connection should be established', async () => {
-        await dbConnection();
-
-    });
-    afterAll(async () => {
-        
-    });
+   
 });

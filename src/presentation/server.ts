@@ -6,7 +6,7 @@ interface Options {
 
 export class Server{
 
-    public app = express();
+    public readonly app = express();
     private readonly port:number;
     private readonly routes:Router;
     private serverListener?:any;

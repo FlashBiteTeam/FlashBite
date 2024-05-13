@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.44% </span>
+                <span class="strong">52.38% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>56/126</span>
+                <span class='fraction'>66/126</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>4/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">9.09% </span>
+                <span class="strong">27.27% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/11</span>
+                <span class='fraction'>3/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.44% </span>
+                <span class="strong">52.38% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>56/126</span>
+                <span class='fraction'>66/126</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -213,22 +213,22 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -337,23 +337,23 @@ export class ReservasController{
         private readonly reservaRepository:ReservaRepository
     ){};
 &nbsp;
-    private handleError = <span class="fstat-no" title="function not covered" >(error:unknown, res: Response) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        if(error instanceof CustomError){</span>
-<span class="cstat-no" title="statement not covered" >            return res.status(error.statusCode).json({error: error.message});</span>
-<span class="cstat-no" title="statement not covered" >        }</span>
-<span class="cstat-no" title="statement not covered" ></span>
+    private handleError = (error:unknown, res: Response) =&gt; {
+        if(error instanceof CustomError){
+            return res.status(error.statusCode).json({error: error.message});
+        }
+<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span>
 <span class="cstat-no" title="statement not covered" >        return res.status(500).json({error: 'Internal server error'});</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 &nbsp;
     //* Crear reserva por el Usuario
-     create = <span class="fstat-no" title="function not covered" >(req:Request, res:Response)=&gt;{</span>
-<span class="cstat-no" title="statement not covered" >        const [error, crearReservaDto] = CrearReservaDto.create(req.body);</span>
-<span class="cstat-no" title="statement not covered" >        if(error) return res.status(400).json({error});</span>
-<span class="cstat-no" title="statement not covered" >        </span>
-<span class="cstat-no" title="statement not covered" >        new CrearReserva(this.reservaRepository).execute(crearReservaDto!)</span>
-<span class="cstat-no" title="statement not covered" >            .then(reserva =&gt; res.json({reserva:reserva,msg: 'Reserva creada con exito!!'}))</span>
-<span class="cstat-no" title="statement not covered" >            .catch(error =&gt; this.handleError(error,res))</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+     create = (req:Request, res:Response)=&gt;{
+        const [error, crearReservaDto] = CrearReservaDto.create(req.body);
+        if(error) <span class="branch-0 cbranch-no" title="branch not covered" >return res.status(400).json({error});</span>
+        
+        new CrearReserva(this.reservaRepository).execute(crearReservaDto!)
+            .then(reserva =&gt; res.json({reserva:reserva,msg: 'Reserva creada con exito!!'}))
+            .catch(error =&gt; this.handleError(error,res))
+    }
 &nbsp;
     //* Mirar las reservas Actuales de un restaurante
      reservasActualesRestaurante = <span class="fstat-no" title="function not covered" >(req:Request, res:Response)=&gt;{</span>
@@ -445,7 +445,7 @@ export class ReservasController{
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-05-09T18:08:54.282Z
+                at 2024-05-13T20:02:10.238Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

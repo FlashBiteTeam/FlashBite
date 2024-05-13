@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">24.13% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/29</span>
+                <span class='fraction'>29/29</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">25% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>2/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">24.13% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/29</span>
+                <span class='fraction'>29/29</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -95,58 +95,58 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import { regularExps } from "../../../config";
 &nbsp;
 export class CrearReservaDto{
-<span class="fstat-no" title="function not covered" >    constructor(</span>
-<span class="cstat-no" title="statement not covered" >        public restaurante: string,</span>
-<span class="cstat-no" title="statement not covered" >        public usuario: string,</span>
-<span class="cstat-no" title="statement not covered" >        public hora: string,</span>
-<span class="cstat-no" title="statement not covered" >        public fecha: string,</span>
-<span class="cstat-no" title="statement not covered" >    ){}</span>
+    constructor(
+        public restaurante: string,
+        public usuario: string,
+        public hora: string,
+        public fecha: string,
+    ){}
 &nbsp;
-    static <span class="fstat-no" title="function not covered" >create(object: {[key:string]:any}):[string?,CrearReservaDto?]{</span>
-<span class="cstat-no" title="statement not covered" >        const {restaurante, usuario, hora, fecha} = object;</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        if(!restaurante) return ['Missing Restaurante email addres', undefined];</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        if(!usuario) return['Missing Usuario Email', undefined];</span>
-<span class="cstat-no" title="statement not covered" >        </span>
-<span class="cstat-no" title="statement not covered" >        if(!regularExps.email.test(restaurante)) return ['Restaurante Email is not vaild', undefined];</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        if(!regularExps.email.test(usuario)) return ['Usuario Email is not vaild', undefined];</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        if(!hora) return ['Missing hour', undefined];</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        if(!fecha) return ['Missing Fecha', undefined];</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        return [undefined, new  CrearReservaDto(restaurante, usuario, hora, fecha)];</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+    static create(object: {[key:string]:any}):[string?,CrearReservaDto?]{
+        const {restaurante, usuario, hora, fecha} = object;
+&nbsp;
+        if(!restaurante) <span class="branch-0 cbranch-no" title="branch not covered" >return ['Missing Restaurante email addres', undefined];</span>
+&nbsp;
+        if(!usuario) <span class="branch-0 cbranch-no" title="branch not covered" >return['Missing Usuario Email', undefined];</span>
+        
+        if(!regularExps.email.test(restaurante)) <span class="branch-0 cbranch-no" title="branch not covered" >return ['Restaurante Email is not vaild', undefined];</span>
+&nbsp;
+        if(!regularExps.email.test(usuario)) <span class="branch-0 cbranch-no" title="branch not covered" >return ['Usuario Email is not vaild', undefined];</span>
+&nbsp;
+        if(!hora) <span class="branch-0 cbranch-no" title="branch not covered" >return ['Missing hour', undefined];</span>
+&nbsp;
+        if(!fecha) <span class="branch-0 cbranch-no" title="branch not covered" >return ['Missing Fecha', undefined];</span>
+&nbsp;
+        return [undefined, new  CrearReservaDto(restaurante, usuario, hora, fecha)];
+&nbsp;
+    }
 }</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -154,7 +154,7 @@ export class CrearReservaDto{
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-05-09T18:08:54.282Z
+                at 2024-05-13T20:02:10.238Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
